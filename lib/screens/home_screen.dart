@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_budget_ui/data/data.dart';
+import 'package:flutter_budget_ui/models/category_model.dart';
+import 'package:flutter_budget_ui/models/expense_model.dart';
 import 'package:flutter_budget_ui/widgets/bar_chart.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,6 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  _buildCategory(Category category, )
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,24 +38,33 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Container(
-                  margin: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black,
-                          offset: Offset(0, 2),
-                          blurRadius: 6.0),
-                    ],
-                    borderRadius: BorderRadius.circular(
-                      10.0,
+                if (index == 0) {
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0, 2),
+                            blurRadius: 6.0),
+                      ],
+                      borderRadius: BorderRadius.circular(
+                        10.0,
+                      ),
                     ),
-                  ),
-                  child: BarChart(expenses: weeklySpending),
-                );
+                    child: BarChart(expenses: weeklySpending),
+                  );
+                } else {
+                  final Category category = categories[index - 1];
+                  double totalAmountSpend = 0;
+                  category.expenses.forEach((Expense expense) {
+                    totalAmountSpend += expense.cost;
+                  });
+                  return _buildCategory(category, totalAmountSpend);
+                }
               },
-              childCount: 1,
+              childCount: 1 + categories.length,
             ),
           )
         ],
