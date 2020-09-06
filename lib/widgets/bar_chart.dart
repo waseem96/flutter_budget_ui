@@ -11,7 +11,7 @@ class BarChart extends StatelessWidget {
       if (price > mostExpensive) mostExpensive = price;
     });
     return Padding(
-      padding: EdgeInsets.all(12.0),
+      padding: EdgeInsets.all(7.0),
       child: Column(
         children: <Widget>[
           Text(
